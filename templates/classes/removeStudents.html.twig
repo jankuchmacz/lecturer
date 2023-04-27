@@ -1,0 +1,100 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ClassesController!{% endblock %}
+
+{% block body %}
+<br>
+{% for message in app.flashes('success') %}
+    <div class="alert alert-success">
+    <h3>{{message}}</h3>
+    </div>
+{% endfor  %}
+<br>
+<div class="container">
+<div class="row">
+    <div class="col-11">
+        <h2>Subject: {{classes.name}}</h2>
+    </div>
+    <div class="col-1 text-right">
+        <a class="btn btn-outline-danger" href="{{path('classes.removeClasses')}}">Back</a>
+    </div>
+</div>
+<br>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <td>Group</td> 
+            <td>Number of students</td>
+            <td>Lecture hours</td>
+            <td>Exercises hours</td>
+            <td>Laboratory hours</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{classes.studentsGroup}}</td>
+            <td>{{classes.students.count}}
+            <td>{{classes.lectureHours}}</td>
+            <td>{{classes.exercisesHours}}</td>
+            <td>{{classes.laboratoryHours}}</td>
+        </tr>
+    </tbody>   
+</table>
+<br>
+{% if classes.students.count > 0 %}
+<h2>Students list </h2>
+<br>
+<table class="table table-striped text-center">
+    <thead>
+        <tr>
+            <td>Number</td> 
+            <td>Name</td>
+            <td>Surname</td>
+            <td>Index number</td>
+            <td><b>Edit</b></td>
+            <td><b>Remove</b></td>
+        </tr>
+    </thead>
+    <tbody>
+    
+        {% for student in classes.students %}
+            <tr>
+                <td>{{loop.index}}</td>
+                <td>{{student.name}}</td>
+                <td>{{student.surname}}</td>
+                <td>{{student.indexNumber}}</td>
+                <td><a class="btn btn-outline-success"  href="{{path('classes.editStudent', {id: student.id})}}">Edit</a></td>
+                <td><a class="btn btn-outline-danger delete" data-confirm="Are you sure to delete this Student?" href="{{path('classes.removeStudent', {id: student.id})}}">Remove</a></td>
+                
+                        
+            </tr>
+        {% endfor %}
+    
+    </tbody>  
+</table>
+{% else %}
+    <h2 class="text-danger">Students list is empty</h2>
+{% endif %}
+<br>
+
+</div>
+{% endblock %}
+{% block javascripts %}
+{{parent()}}
+<script>
+    /*function delete_video(e)
+    {
+      return confirm('Are you sure?');
+    }*/
+    $('.delete').on("click", function (e) {
+    e.preventDefault();
+
+    var choice = confirm($(this).attr('data-confirm'));
+
+    if (choice) {
+        window.location.href = $(this).attr('href');
+    }
+});
+</script>
+
+{% endblock %}

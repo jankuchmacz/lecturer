@@ -1,0 +1,87 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ClassesController!{% endblock %}
+
+{% block body %}
+<br>
+{% for message in app.flashes('warning') %}
+    <div class="alert alert-danger">
+    <h3>{{message}}</h3>
+    </div>
+{% endfor  %}
+<br>
+<div class="container">
+<div class="row">
+    <div class="col-9">
+        <h2>Subject: {{classes.name}}</h2>
+    </div>
+    <div class="col-3 text-right">
+        <a class="btn btn-outline-danger" href="{{path('classes.show')}}">Back</a>
+    </div>
+</div>
+<br>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <td>Group</td> 
+            <td>Number of students</td>
+            <td>Lecture hours</td>
+            <td>Exercises hours</td>
+            <td>Laboratory hours</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{classes.studentsGroup}}</td>
+            <td>{{classes.students.count}}
+            <td>{{classes.lectureHours}}</td>
+            <td>{{classes.exercisesHours}}</td>
+            <td>{{classes.laboratoryHours}}</td>
+        </tr>
+    </tbody>   
+</table>
+<br>
+{% if classes.students.count != 0 %}
+<h2>Enter date of classes</h2>
+{{form_start(form)}}
+{{form_widget(form.dateOfClasses)}}
+<br>
+{{form_label(form.Save)}}
+{{form_widget(form.Save)}}
+{{form_end(form)}}
+{% else %}
+<br>
+<h3>To start classes you have to add students at first</h3>
+<br>
+<a class="btn btn-success" href="{{path('classes.addStudent', {id: classes.id})}}">Add Students</a>
+<br>
+{% endif %}
+<br>
+<table class="table table-striped">
+    {% if classes.students.count != 0 %}
+    <thead>
+        <tr>
+            <td>Number of classes</td> 
+            <td>Date of classes</td>
+            <td>Check presence</td> 
+            <td>Give marks</td>
+            <td>Give pluses</td>
+        </tr>
+    </thead>
+    {% endif %}
+    <tbody>
+    {% for date in classes.datesOfClasses %}
+        <tr>
+            <td>{{loop.index}}</td>
+            <td>{{date|date("d M Y")}}</td>
+            <td><a class="btn btn-success" href="{{path('classes.presence', {id: classes.id, classesNumber: loop.index })}}">Check presence</a></td>  
+            <td><a class="btn btn-success" href="{{path('classes.marks', {id: classes.id, classesNumber: loop.index })}}">Give marks</a></td> 
+            <td><a class="btn btn-success" href="{{path('classes.pluses', {id: classes.id, classesNumber: loop.index })}}">Give pluses</a></td>               
+        </tr>
+    {% endfor %}
+    </tbody>   
+</table>
+
+
+</div>
+{% endblock %}

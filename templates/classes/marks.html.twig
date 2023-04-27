@@ -1,0 +1,103 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ClassesController!{% endblock %}
+
+{% block body %}
+<div class="container">
+<br>
+<h2>Subject: {{classes.name}}</h2>
+<br>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <td>Group</td> 
+            <td>Number of students</td>
+            <td>Lecture hours</td>
+            <td>Exercises hours</td>
+            <td>Laboratory hours</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{classes.studentsGroup}}</td>
+            <td>{{classes.students.count}}
+            <td>{{classes.lectureHours}}</td>
+            <td>{{classes.exercisesHours}}</td>
+            <td>{{classes.laboratoryHours}}</td>
+        </tr>
+    </tbody>   
+</table>
+<br>
+<h2>Classes on {{dateOfClasses|date("d M Y")}}</h2>
+<br>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <td>Number</td> 
+            <td>Name</td>
+            <td>Surname</td>
+            <td>Index number</td>
+            <td><b>Give marks</b></td>
+        </tr>
+    </thead>
+    <tbody>
+    {% for student in classes.students %}
+        <tr>
+            <td>{{loop.index}}</td>
+            <td>{{student.name}}</td>
+            <td>{{student.surname}}</td>
+            <td>{{student.indexNumber}}</td>
+            <td>
+            {% if dateOfClasses|date("d M Y") in student.marksTable|keys  %}
+                {% set studentMark = student.marksTable[dateOfClasses|date("d M Y")] %}
+                    {% if studentMark == "5" %}
+                    {% set got5 = 'got5' %}
+                    {% elseif studentMark == "4.5"  %}
+                    {% set got45 = 'got45' %}
+                    {% elseif studentMark == "4"  %}
+                    {% set got4 = 'got4' %}
+                    {% elseif studentMark == "3.5"  %}
+                    {% set got35 = 'got35' %}
+                    {% elseif studentMark == "3"  %}
+                    {% set got3 = 'got3' %}
+                    {% elseif studentMark == "2"  %}
+                    {% set got2 = 'got2' %}
+                    {% endif %}
+            {% else %}
+                {% set noActionYet = 'noActionYet' %}
+            {% endif %}
+            <a class="btn btn-outline-success give5  click-to-give-5-{{student.id}} toogle-presence {{noActionYet|default(null)}}" href="{{path('student.giveMark', {id: student.id, dateOfClasses: dateOfClasses|date("d M Y"), mark: "5" })}}"> 5.0 </a> 
+            <a class="btn btn-success undo5  click-to-undo-5-{{student.id}} toogle-presence {{got5|default(null)}}" href="{{path('student.undoMark', {id: student.id, dateOfClasses: dateOfClasses|date("d M Y"), mark: "5" })}}"> 5.0 </a> 
+            <a class="btn btn-outline-success give45  click-to-give-45-{{student.id}} toogle-presence {{noActionYet|default(null)}}" href="{{path('student.giveMark', {id: student.id, dateOfClasses: dateOfClasses|date("d M Y"), mark: "4.5" })}}"> 4.5 </a> 
+            <a class="btn btn-success undo45  click-to-undo-45-{{student.id}} toogle-presence {{got45|default(null)}}" href="{{path('student.undoMark', {id: student.id, dateOfClasses: dateOfClasses|date("d M Y"), mark: "4.5" })}}"> 4.5 </a> 
+            <a class="btn btn-outline-success give4  click-to-give-4-{{student.id}} toogle-presence {{noActionYet|default(null)}}" href="{{path('student.giveMark', {id: student.id, dateOfClasses: dateOfClasses|date("d M Y"), mark: "4" })}}"> 4.0 </a>
+            <a class="btn btn-success undo4  click-to-undo-4-{{student.id}} toogle-presence {{got4|default(null)}}" href="{{path('student.undoMark', {id: student.id, dateOfClasses: dateOfClasses|date("d M Y"), mark: "4" })}}"> 4.0 </a>
+            <a class="btn btn-outline-success give35  click-to-give-35-{{student.id}} toogle-presence {{noActionYet|default(null)}}" href="{{path('student.giveMark', {id: student.id, dateOfClasses: dateOfClasses|date("d M Y"), mark: "3.5" })}}"> 3.5 </a>
+            <a class="btn btn-success undo35  click-to-undo-35-{{student.id}} toogle-presence {{got35|default(null)}}" href="{{path('student.undoMark', {id: student.id, dateOfClasses: dateOfClasses|date("d M Y"), mark: "3" })}}"> 3.5 </a>
+            <a class="btn btn-outline-success give3  click-to-give-3-{{student.id}} toogle-presence {{noActionYet|default(null)}}" href="{{path('student.giveMark', {id: student.id, dateOfClasses: dateOfClasses|date("d M Y"), mark: "3" })}}"> 3.0 </a>
+            <a class="btn btn-success undo3  click-to-undo-3-{{student.id}} toogle-presence {{got3|default(null)}}" href="{{path('student.undoMark', {id: student.id, dateOfClasses: dateOfClasses|date("d M Y"), mark: "3" })}}"> 3.0 </a>
+            <a class="btn btn-outline-danger give2   click-to-give-2-{{student.id}} toogle-presence {{noActionYet|default(null)}}" href="{{path('student.giveMark', {id: student.id, dateOfClasses: dateOfClasses|date("d M Y"), mark: "2" })}}"> 2.0 </a>
+            <a class="btn btn-danger undo2   click-to-undo-2-{{student.id}} toogle-presence {{got2|default(null)}}" href="{{path('student.undoMark', {id: student.id, dateOfClasses: dateOfClasses|date("d M Y"), mark: "2" })}}"> 2.0 </a>
+            {% set got5 = null %}
+            {% set got45 = null %}
+            {% set got4 = null %}
+            {% set got35 = null %}
+            {% set got3 = null %}
+            {% set got2 = null %}
+            {% set noActionYet = null %}
+               
+            </td>                     
+        </tr>
+    {% endfor %}
+    </tbody>   
+</table>
+
+<br>
+<a class="btn btn-outline-success" href="{{path('classes.start', {id: classes.id})}}">Save and return</a>
+<a class="btn btn-outline-danger" href="{{path('classes.start', {id: classes.id})}}">Back</a>
+</div>
+{% endblock %}
+{% block javascripts %}
+{{parent()}}
+<script src="{{asset('js/marks.js')}}"></script>
+{% endblock %}

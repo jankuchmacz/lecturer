@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ClassesController!{% endblock %}
+
+{% block body %}
+
+<div class="container">
+<br>
+{% for message in app.flashes('success') %}
+    <div class="alert alert-success">
+    <h3>{{message}}</h3>
+    </div>
+{% endfor  %}
+<br>
+<h2>Remove or edit your classes or students</h2>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <td></td>
+            <td>Subject name</td>
+            <td>Group</td> 
+            <td>Number of students</td>
+            <td></td> 
+            <td></td>   
+            <td></td>      
+        </tr>
+    </thead>
+    <tbody>
+    {% for class in classes %}
+        <tr>
+            <td>{{loop.index}}</td>
+            <td>{{class.name}}</td>
+            <td>{{class.studentsGroup}}</td>
+            <td>{{class.students.count}}
+            <td><a class="btn btn-outline-success" href="{{path('classes.editClasses', {id: class.id})}}">Edit classes</a></td>
+            <td><a class="btn btn-outline-success" href="{{path('classes.removeStudents', {id: class.id})}}">Edit students list</a></td>
+            <td><a class="btn btn-outline-danger delete" data-confirm="Are you sure to delete this Classes?" href="{{path('classes.removeClass', {id: class.id})}}">Remove classes</a></td>
+            
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+</div>
+{% endblock %}
+{% block javascripts %}
+{{parent()}}
+<script>
+    /*function delete_video(e)
+    {
+      return confirm('Are you sure?');
+    }*/
+    $('.delete').on("click", function (e) {
+    e.preventDefault();
+
+    var choice = confirm($(this).attr('data-confirm'));
+
+    if (choice) {
+        window.location.href = $(this).attr('href');
+    }
+});
+</script>
+
+{% endblock %}

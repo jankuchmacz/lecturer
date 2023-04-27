@@ -1,0 +1,45 @@
+.undo-presence-button,
+.undo-absence-button,
+.give-presence-button,
+.give-absence-button {
+  display: none;
+}
+
+.undo5,
+.undo45,
+.undo4,
+.undo35,
+.undo3,
+.undo2,
+.give5,
+.give45,
+.give4,
+.give35,
+.give3,
+.give2 {
+  display: none;
+}
+
+td.rotate {
+  white-space: nowrap;
+  position:relative;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+td.rotate > div {
+  transform: rotate(90deg);
+  position:absolute;
+  left:0;
+  right:0;
+  margin:auto;
+  
+}
+.buttons
+{
+  margin-top: 50px;
+}
+.picture
+{
+  margin-top: 30px;
+}

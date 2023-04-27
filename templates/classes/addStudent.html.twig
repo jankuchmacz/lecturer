@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ClassesController!{% endblock %}
+
+{% block body %}
+<br>
+{% for message in app.flashes('success') %}
+    <div class="alert alert-success">
+    <h3>{{message}}</h3>
+    </div>
+{% endfor  %}
+<br>
+<div class="container">
+<br>
+<h2>Add students to your classes</h2>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <td>Subject name</td>
+            <td>Group</td> 
+            <td>Number of students</td>
+            <td></td>         
+        </tr>
+    </thead>
+    <tbody>
+    
+        <tr>
+            <td>{{classes.name}}</td>
+            <td>{{classes.studentsGroup}}</td>
+            <td>{{classes.students.count}}
+        </tr>
+      
+    </tbody>
+</table>
+<br>
+{{form(form)}}
+</div>
+{% endblock %}
+{% block javascripts %}
+{{parent()}}
+<script>
+$('.custom-file-input').on('change',function(){
+        var fileName = $(this).val().replace(/.*(\/|\\)/, '');
+        $(this).next('label').addClass("selected").html(fileName);
+});
+</script>
+{% endblock %}

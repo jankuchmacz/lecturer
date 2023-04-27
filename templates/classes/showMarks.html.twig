@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ClassesController!{% endblock %}
+
+{% block body %}
+<div class="container">
+<br>
+<h2>Marks lists</h2>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <td></td>
+            <td>Subject name</td>
+            <td>Group</td> 
+            <td>Number of students</td>
+            <td>Lecture hours</td>
+            <td>Exercises hours</td>
+            <td>Laboratory hours</td>
+            <td></td>
+           
+        </tr>
+    </thead>
+    <tbody>
+    {% for class in classes %}
+        <tr>
+            <td>{{loop.index}}</td>
+            <td>{{class.name}}</td>
+            <td>{{class.studentsGroup}}</td>
+            <td>{{class.students.count}}
+            <td>{{class.lectureHours}}</td>
+            <td>{{class.exercisesHours}}</td>
+            <td>{{class.laboratoryHours}}</td>
+            <td><a class="btn btn-success" href="{{path('classes.marks_list', {id: class.id})}}">Show marks list</a></td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+</div>
+{% endblock %}

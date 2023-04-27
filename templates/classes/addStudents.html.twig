@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Lecturer{% endblock %}
+
+{% block body %}
+<div class="container">
+<br>
+{% for message in app.flashes('success') %}
+    <div class="alert alert-success">
+    <h3>{{message}}</h3>
+    </div>
+{% endfor  %}
+<br>
+<h2>Add students to your classes</h2>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <td></td>
+            <td>Subject name</td>
+            <td>Group</td> 
+            <td>Number of students</td>
+            <td></td>     
+            <td></td>     
+        </tr>
+    </thead>
+    <tbody>
+    {% for class in classes %}
+        <tr>
+            <td>{{loop.index}}</td>
+            <td>{{class.name}}</td>
+            <td>{{class.studentsGroup}}</td>
+            <td>{{class.students.count}}
+            <td><a class="btn btn-success" href="{{path('classes.addStudent', {id: class.id})}}">Add manually</a></td>
+            <td><a class="btn btn-success" href="{{path('classes.addStudentExcel', {id: class.id})}}">Import from Excel</a></td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+</div>
+{% endblock %}

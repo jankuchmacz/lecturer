@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ClassesController!{% endblock %}
+
+
+{% block body %}
+<br>
+<div class="container">
+<br>
+{% if edit is defined %}
+<div class="row">
+    <div class="col-11">
+        <h2>Edit classes</h2>
+    </div>
+    <div class="col-1 text-right">
+        <a class="btn btn-outline-danger" href="{{path('classes.removeClasses')}}">Back</a>
+    </div>
+</div>
+{% elseif create is defined %}
+<h2>Add new classes</h2>
+{% endif %}
+<br>
+{{form(form)}}
+</div>
+{% endblock %}

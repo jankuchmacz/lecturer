@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ClassesController!{% endblock %}
+
+{% block body %}
+<div class="container">
+<br>
+<h2>Subject: {{classes.name}}</h2>
+<br>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <td>Group</td> 
+            <td>Number of students</td>
+            <td>Lecture hours</td>
+            <td>Exercises hours</td>
+            <td>Laboratory hours</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{classes.studentsGroup}}</td>
+            <td>{{classes.students.count}}
+            <td>{{classes.lectureHours}}</td>
+            <td>{{classes.exercisesHours}}</td>
+            <td>{{classes.laboratoryHours}}</td>
+        </tr>
+    </tbody>   
+</table>
+<br>
+<h2>Classes on {{dateOfClasses|date("d M Y")}}</h2>
+<br>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <td>Number</td> 
+            <td>Name</td>
+            <td>Surname</td>
+            <td>Index number</td>
+            <td><b>Pluses</b></td>
+            <td><b>Give pluses</b></td>
+        </tr>
+    </thead>
+    <tbody>
+    {% for student in classes.students %}
+        <tr>
+            <td>{{loop.index}}</td>
+            <td>{{student.name}}</td>
+            <td>{{student.surname}}</td>
+            <td>{{student.indexNumber}}</td>
+            <td><div class="number-pluses-{{student.id}}">{{student.pluses}}</div></td>
+            <td>
+            <a class="btn btn-outline-success give-pluses-button click-to-give-plus-{{student.id}} toogle-pluses {{noActionYet|default(null)}}" href="{{path('student.pluses', {id: student.id})}}">+</a> 
+            <a class="btn btn-outline-danger remove-plus-button click-to-remove-plus-{{student.id}} toogle-pluses {{noActionYet|default(null)}}" href="{{path('student.remove_plus', {id: student.id})}}">-</a>
+            </td>                     
+        </tr>
+    {% endfor %}
+    </tbody>   
+</table>
+
+<br>
+<a class="btn btn-outline-success" href="{{path('classes.start', {id: classes.id})}}">Save and return</a>
+<a class="btn btn-outline-danger" href="{{path('classes.start', {id: classes.id})}}">Back</a>
+
+</div>
+{% endblock %}
+{% block javascripts %}
+{{parent()}}
+<script src="{{asset('js/pluses.js')}}"></script>
+{% endblock %}

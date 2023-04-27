@@ -1,0 +1,6 @@
+.click-to-give-presence,
+.click-to-give-absence,
+.click-to-undo-presence,
+.click-to-undo-absence {
+  display: none;
+}

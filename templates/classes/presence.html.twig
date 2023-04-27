@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ClassesController!{% endblock %}
+
+{% block body %}
+<div class="container">
+<br>
+<h2>Subject: {{classes.name}}</h2>
+<br>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <td>Group</td> 
+            <td>Number of students</td>
+            <td>Lecture hours</td>
+            <td>Exercises hours</td>
+            <td>Laboratory hours</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{classes.studentsGroup}}</td>
+            <td>{{classes.students.count}}
+            <td>{{classes.lectureHours}}</td>
+            <td>{{classes.exercisesHours}}</td>
+            <td>{{classes.laboratoryHours}}</td>
+        </tr>
+    </tbody>   
+</table>
+<br>
+<h2>Classes on {{dateOfClasses|date("d M Y")}}</h2>
+<br>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <td>Number</td> 
+            <td>Name</td>
+            <td>Surname</td>
+            <td>Index number</td>
+            <td><b>Check presence</b></td>
+        </tr>
+    </thead>
+    <tbody>
+    {% for student in classes.students %}
+        <tr>
+            <td>{{loop.index}}</td>
+            <td>{{student.name}}</td>
+            <td>{{student.surname}}</td>
+            <td>{{student.indexNumber}}</td>
+            <td>
+            {% if dateOfClasses|date("d M Y") in student.presenceTable  %}
+            {% set studentPresent = 'studentPresent' %}
+            {% elseif dateOfClasses|date("d M Y")  in student.absenceTable %}
+            {% set studentAbsent = 'studentAbsent' %}
+            {% else %}
+            {% set noActionYet = 'noActionYet' %}
+            {% endif %}
+
+            {#{% if dateOfClasses|date("d M Y") not in student.presenceTable and dateOfClasses|date("d M Y") not in student.absenceTable   %}#}
+            <a class="btn btn-outline-success give-presence-button click-to-give-presence-{{student.id}} toogle-presence {{noActionYet|default(null)}}" href="{{path('student.present', {id: student.id, dateOfClasses: dateOfClasses|date("d M Y") })}}">Present</a> 
+            <a class="btn btn-outline-danger give-absence-button click-to-give-absence-{{student.id}} toogle-presence {{noActionYet|default(null)}}" href="{{path('student.absent', {id: student.id, dateOfClasses: dateOfClasses|date("d M Y") })}}">Absent</a>
+            {#{% elseif dateOfClasses|date("d M Y") in student.presenceTable  %}#}
+            <a class="btn btn-success undo-presence-button click-to-undo-presence-{{student.id}} toogle-presence {{studentPresent|default(null)}}" href="{{path('student.undo_present', {id: student.id, dateOfClasses: dateOfClasses|date("d M Y") })}}">Present</a> 
+            {#{% elseif dateOfClasses|date("d M Y") in student.absenceTable  %} #}
+            <a class="btn btn-danger undo-absence-button click-to-undo-absence-{{student.id}} toogle-presence {{studentAbsent|default(null)}}" href="{{path('student.undo_absent', {id: student.id, dateOfClasses: dateOfClasses|date("d M Y") })}}">Absent</a>
+            {#{% endif %}#}
+            </td> 
+
+            {% set studentPresent = null %}
+            {% set studentAbsent = null %}
+            {% set noActionYet = null %}
+                     
+        </tr>
+    {% endfor %}
+    </tbody>   
+</table>
+<br>
+<a class="btn btn-outline-success" href="{{path('classes.start', {id: classes.id})}}">Save and return</a>
+<a class="btn btn-outline-danger" href="{{path('classes.start', {id: classes.id})}}">Back</a>
+
+</div>
+{% endblock %}
+{% block javascripts %}
+{{parent()}}
+<script src="{{asset('js/likes.js')}}"></script>
+{% endblock %}

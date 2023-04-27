@@ -1,0 +1,83 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Lecturer{% endblock %}
+
+{% block body %}
+
+<div class="container">
+<br>
+<div class="row text-center">
+
+     {% if not is_granted('IS_AUTHENTICATED_FULLY') %}
+					
+    <div class="col-sm-12 col-md-12 col-lg-4 buttons">
+
+           
+            <h3>Already have account?</h3>
+            <br>
+            <a class="btn btn-outline-success" href="{{path('app_login')}}">Sign in</a>	
+           						
+	</div>
+    <div class="col-sm-12 col-md-12 col-lg-4 picture">
+        
+        <figure>
+		    <a href="#"><img src="{{asset('img/lecturerphoto.jpg')}}" alt="Lecturer"></a>
+		</figure>
+		
+	</div>
+    <div class="col-sm-12 col-md-12 col-lg-4 buttons">
+       
+		<h3>Want to create account?</h3>
+        <br>
+        <a class="btn btn-outline-success" href="{{path('registration')}}">Register</a>	
+	</div>
+    
+    {% endif %}
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+     <div class="col-sm-12 col-md-12 col-lg-6 picture">
+        
+        <figure>
+		    <a href="#"><img src="{{asset('img/lecturerphoto.jpg')}}" alt="Lecturer"></a>
+		</figure>
+		
+	</div>
+    <div class="col-sm-12 col-md-12 col-lg-6 buttons">
+       
+		<h3>Hello {{app.user.username}} </h3>
+        <br>
+        <a class="btn btn-outline-success" href="{{path('classes.show')}}">Start classes</a>	
+	</div>
+
+    {% endif %}
+   
+
+</div>
+					
+					
+
+				
+					
+{#<table class="table">
+    <tbody>
+        <tr>
+            <td class="text-center" >
+            <h3>Already have account</h3>
+            <br>
+            <a class="btn btn-outline-success" href="{{path('app_login')}}">Sign in</a>
+            </td>
+            <td>
+            <img src="{{asset('img/lecturer.jpg')}}">
+            </td>
+        </tr>
+        <tr>
+            <td>
+            </td>
+            <td>
+            </td>
+        </tr>
+    </tbody>   
+</table>
+#}
+</div>
+  
+{% endblock %}
